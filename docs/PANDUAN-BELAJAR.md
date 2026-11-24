@@ -7,7 +7,7 @@ Bacalah dokumen sesuai urutan, karena setiap dokumen mengasumsikan Anda sudah me
 
 ```
 docs/
-├── README.md                     ← Anda di sini
+├── PANDUAN-BELAJAR.md            ← Anda di sini
 ├── 00-arsitektur/                ← Keputusan desain besar (kenapa begini)
 │   └── tahap-01-analisis-arsitektur.md
 └── fitur/                        ← Satu file per fitur/proses (bagaimana membuatnya)
