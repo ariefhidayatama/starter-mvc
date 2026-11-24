@@ -1,0 +1,261 @@
+@import 'tailwindcss';
+
+@import 'tw-animate-css';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+    --font-sans:
+        'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
+
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-xl: calc(var(--radius) + 4px);
+    --radius-2xl: calc(var(--radius) + 8px);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-success: var(--success);
+    --color-warning: var(--warning);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/*
+ * Tema: aksen indigo, netral abu-abu sejuk (sedikit kebiruan).
+ * Semua komponen shadcn/ui membaca variabel ini, jadi mengganti warna
+ * brand cukup di sini.
+ */
+:root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.21 0.02 270);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.21 0.02 270);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.21 0.02 270);
+    --primary: oklch(0.511 0.262 276.966);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.967 0.008 270);
+    --secondary-foreground: oklch(0.3 0.03 270);
+    --muted: oklch(0.967 0.008 270);
+    --muted-foreground: oklch(0.552 0.02 270);
+    --accent: oklch(0.962 0.018 272.314);
+    --accent-foreground: oklch(0.398 0.195 277.366);
+    --destructive: oklch(0.577 0.245 27.325);
+    --destructive-foreground: oklch(0.577 0.245 27.325);
+    --success: oklch(0.627 0.17 149.214);
+    --warning: oklch(0.769 0.165 70.08);
+    --border: oklch(0.925 0.008 270);
+    --input: oklch(0.905 0.01 270);
+    --ring: oklch(0.585 0.233 277.117);
+    --chart-1: oklch(0.585 0.233 277.117);
+    --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08);
+    --chart-4: oklch(0.627 0.265 303.9);
+    --chart-5: oklch(0.645 0.246 16.439);
+    --radius: 0.75rem;
+    --sidebar: oklch(0.975 0.006 270);
+    --sidebar-foreground: oklch(0.3 0.03 270);
+    --sidebar-primary: oklch(0.511 0.262 276.966);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.93 0.03 275);
+    --sidebar-accent-foreground: oklch(0.398 0.195 277.366);
+    --sidebar-border: oklch(0.925 0.008 270);
+    --sidebar-ring: oklch(0.585 0.233 277.117);
+    /* Gradien brand (indigo → ungu): bg-brand-gradient & progress bar. */
+    --brand-from: oklch(0.585 0.233 277.117);
+    --brand-to: oklch(0.558 0.288 302.321);
+}
+
+.dark {
+    --background: oklch(0.185 0.015 275);
+    --foreground: oklch(0.96 0.005 270);
+    --card: oklch(0.215 0.018 275);
+    --card-foreground: oklch(0.96 0.005 270);
+    --popover: oklch(0.215 0.018 275);
+    --popover-foreground: oklch(0.96 0.005 270);
+    --primary: oklch(0.673 0.182 276.935);
+    --primary-foreground: oklch(0.16 0.02 275);
+    --secondary: oklch(0.27 0.02 275);
+    --secondary-foreground: oklch(0.96 0.005 270);
+    --muted: oklch(0.27 0.02 275);
+    --muted-foreground: oklch(0.7 0.02 270);
+    --accent: oklch(0.3 0.06 277);
+    --accent-foreground: oklch(0.87 0.065 274.039);
+    --destructive: oklch(0.45 0.17 25.723);
+    --destructive-foreground: oklch(0.704 0.191 22.216);
+    --success: oklch(0.723 0.192 149.579);
+    --warning: oklch(0.828 0.189 84.429);
+    --border: oklch(0.3 0.02 275);
+    --input: oklch(0.32 0.02 275);
+    --ring: oklch(0.673 0.182 276.935);
+    --chart-1: oklch(0.673 0.182 276.935);
+    --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08);
+    --chart-4: oklch(0.627 0.265 303.9);
+    --chart-5: oklch(0.645 0.246 16.439);
+    --sidebar: oklch(0.155 0.014 275);
+    --sidebar-foreground: oklch(0.87 0.01 270);
+    --sidebar-primary: oklch(0.673 0.182 276.935);
+    --sidebar-primary-foreground: oklch(0.16 0.02 275);
+    --sidebar-accent: oklch(0.26 0.04 277);
+    --sidebar-accent-foreground: oklch(0.93 0.03 275);
+    --sidebar-border: oklch(0.27 0.02 275);
+    --sidebar-ring: oklch(0.673 0.182 276.935);
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground antialiased;
+        font-feature-settings: 'cv11', 'ss01';
+    }
+
+    ::selection {
+        @apply bg-primary/20;
+    }
+}
+
+/* Tanda field wajib di <Label required>: asterisk merah. */
+.require {
+    @apply ml-0.5 text-red-600 dark:text-red-500;
+}
+
+/*
+ * Warna toast (Sonner richColors):
+ * berhasil = hijau, gagal = merah, peringatan = kuning, info = biru.
+ * ":root" menaikkan specificity agar mengalahkan CSS bawaan Sonner.
+ */
+:root [data-sonner-toaster][data-sonner-theme='light'] {
+    --success-bg: #ecfdf5; /* emerald-50 */
+    --success-border: #a7f3d0; /* emerald-200 */
+    --success-text: #047857; /* emerald-700 */
+    --error-bg: #fef2f2; /* red-50 */
+    --error-border: #fecaca; /* red-200 */
+    --error-text: #b91c1c; /* red-700 */
+    --warning-bg: #fffbeb; /* amber-50 */
+    --warning-border: #fde68a; /* amber-200 */
+    --warning-text: #b45309; /* amber-700 */
+    --info-bg: #eff6ff; /* blue-50 */
+    --info-border: #bfdbfe; /* blue-200 */
+    --info-text: #1d4ed8; /* blue-700 */
+}
+
+:root [data-sonner-toaster][data-sonner-theme='dark'] {
+    --success-bg: #022c22; /* emerald-950 */
+    --success-border: #065f46; /* emerald-800 */
+    --success-text: #6ee7b7; /* emerald-300 */
+    --error-bg: #450a0a; /* red-950 */
+    --error-border: #991b1b; /* red-800 */
+    --error-text: #fca5a5; /* red-300 */
+    --warning-bg: #451a03; /* amber-950 */
+    --warning-border: #92400e; /* amber-800 */
+    --warning-text: #fcd34d; /* amber-300 */
+    --info-bg: #172554; /* blue-950 */
+    --info-border: #1e40af; /* blue-800 */
+    --info-text: #93c5fd; /* blue-300 */
+}
+
+/*
+ * Error state field: kontrol yang diikuti <InputError> (sibling) jadi merah,
+ * tanpa perlu memasang aria-invalid di setiap form. Hanya sibling langsung
+ * di field yang sama, jadi error tingkat section (mis. is_active) tidak
+ * ikut memerahkan field lain.
+ */
+:is([data-slot='input'], [data-slot='select-trigger'], textarea):has(
+    ~ [data-slot='input-error']
+),
+[data-slot='password-input']:has(~ [data-slot='input-error'])
+    > [data-slot='input'] {
+    border-color: var(--destructive);
+    --tw-ring-color: color-mix(in oklch, var(--destructive) 20%, transparent);
+}
+
+/*
+ * Utility kustom (Tailwind v4: @utility, agar bisa dipakai dengan varian
+ * seperti hover:, group-hover:, dark:).
+ */
+
+/* Gradien brand: logo, hero, panel login, progress bar. */
+@utility bg-brand-gradient {
+    background-image: linear-gradient(
+        135deg,
+        var(--brand-from) 0%,
+        var(--brand-to) 100%
+    );
+}
+
+/*
+ * Progress bar Inertia (garis loading di atas saat pindah halaman).
+ * CSS bawaan Inertia disuntikkan belakangan, jadi selector diberi awalan
+ * `html` agar lebih spesifik dan tetap menang.
+ * Gradien horizontal (90deg) karena bar-nya garis tipis mendatar.
+ */
+html #nprogress .bar {
+    background: linear-gradient(90deg, var(--brand-from), var(--brand-to));
+}
+
+/* "Peg" = cahaya di ujung kanan bar; ikut warna ujung gradien (ungu). */
+html #nprogress .peg {
+    box-shadow:
+        0 0 10px var(--brand-to),
+        0 0 5px var(--brand-to);
+}
+
+/* Pola titik halus untuk latar hero & panel (warna mengikuti currentColor). */
+@utility bg-dot-pattern {
+    background-image: radial-gradient(
+        circle at 1px 1px,
+        color-mix(in oklch, currentColor 18%, transparent) 1px,
+        transparent 0
+    );
+    background-size: 22px 22px;
+}

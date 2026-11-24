@@ -1,0 +1,47 @@
+import { Head } from '@inertiajs/react';
+import { Pencil } from 'lucide-react';
+import {{ parentModel }}Controller from '@/actions/App/Http/Controllers/Admin/{{ parentModel }}Controller';
+import {{ model }}Controller from '@/actions/App/Http/Controllers/Admin/{{ model }}Controller';
+import { {{ model }}Form } from '@/components/admin/{{ formFile }}';
+import type { {{ model }} } from '@/components/admin/{{ formFile }}';
+import { PageHeader } from '@/components/page-header';
+import { routeKey } from '@/lib/route-key';
+
+type Parent = { id: number; ulid?: string | null; [key: string]: unknown };
+
+export default function {{ model }}Edit({
+    parent,
+    item,
+}: {
+    parent: Parent;
+    item: {{ model }};
+}) {
+    return (
+        <>
+            <Head title={`Edit {{ detailSingular }} #${item.id}`} />
+
+            <div className="space-y-6 p-4 md:p-6">
+                <PageHeader
+                    icon={Pencil}
+                    title={`Edit {{ detailSingular }} #${item.id}`}
+                    description={`Of {{ parentSingular }} #${parent.id}.`}
+                />
+                <{{ model }}Form
+                    action={{{ model }}Controller.update.form({
+                        {{ parentParameter }}: routeKey(parent),
+                        {{ detailParam }}: routeKey(item),
+                    })}
+                    item={item}
+                    cancelHref={{{ parentModel }}Controller.edit.url(routeKey(parent))}
+                />
+            </div>
+        </>
+    );
+}
+
+{{ model }}Edit.layout = {
+    breadcrumbs: [
+        { title: '{{ parentPlural }}', href: {{ parentModel }}Controller.index() },
+        { title: 'Edit {{ detailSingular }}', href: '#' },
+    ],
+};

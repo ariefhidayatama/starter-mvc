@@ -1,0 +1,132 @@
+{
+    "name": "Kwitansis",
+    "table": "kwitansis",
+    "db_table": "kwitansis",
+    "db_connection": null,
+    "existing_table": false,
+    "timestamps": true,
+    "audit": [],
+    "model": "Kwitansi",
+    "fields": [
+        {
+            "name": "kwitansi_no",
+            "type": "string",
+            "required": true,
+            "options": [],
+            "max": 50,
+            "unsigned": false,
+            "references": null
+        },
+        {
+            "name": "customer",
+            "type": "string",
+            "required": true,
+            "options": [],
+            "max": 100,
+            "unsigned": false,
+            "references": null
+        },
+        {
+            "name": "ship_to",
+            "type": "string",
+            "required": true,
+            "options": [],
+            "max": 100,
+            "unsigned": false,
+            "references": null
+        },
+        {
+            "name": "ttf_no",
+            "type": "string",
+            "required": true,
+            "options": [],
+            "max": 50,
+            "unsigned": false,
+            "references": null
+        }
+    ],
+    "details": [
+        {
+            "name": "Kwitansi kwitansi dets",
+            "table": "kwitansi_kwitansi_dets",
+            "db_table": "kwitansi_kwitansi_dets",
+            "db_connection": null,
+            "existing_table": false,
+            "timestamps": true,
+            "audit": [],
+            "model": "KwitansiKwitansiDet",
+            "fields": [
+                {
+                    "name": "customer_po",
+                    "type": "string",
+                    "required": true,
+                    "options": [],
+                    "max": 100,
+                    "unsigned": false,
+                    "references": null
+                },
+                {
+                    "name": "si_no",
+                    "type": "string",
+                    "required": false,
+                    "options": [],
+                    "max": 50,
+                    "unsigned": false,
+                    "references": null
+                }
+            ],
+            "details": [],
+            "foreign_key": "kwitansi_id",
+            "detail_key": "kwitansi_dets"
+        }
+    ],
+    "foreign_key": null,
+    "detail_key": null,
+    "url": "/admin/kwitansis",
+    "migration": "database/migrations/2026_11_19_101932_create_kwitansis_table.php",
+    "generated_at": "2026-11-19T10:19:54+00:00",
+    "files": {
+        "app/Models/KwitansiKwitansiDet.php": "78f76ae74445d0f319b232418088f5b6454985f7",
+        "database/factories/KwitansiKwitansiDetFactory.php": "fc20f0566fdcf3cd9563fd021ae7cf80a8c27435",
+        "app/Http/Requests/Admin/SaveKwitansiKwitansiDetRequest.php": "2052015efc7b7eaa392e60df462f580f53597cfc",
+        "app/Http/Controllers/Admin/KwitansiKwitansiDetController.php": "c292f8c843ea539a41d6cbe9ec5effb0dc118299",
+        "resources/js/components/admin/kwitansi-kwitansi-det-form.tsx": "e77e940a8410f9f8c147e800c7efbc060eeb41e0",
+        "resources/js/components/admin/kwitansi-kwitansi-det-section.tsx": "1e3e919ffda79c3b61164cdf7502dbea7ee23b2c",
+        "resources/js/components/admin/kwitansi-kwitansi-det-rows.tsx": "82713eeb2d67a32477154ffacf1cc9eb86f38876",
+        "resources/js/pages/admin/kwitansis/kwitansi-dets/create.tsx": "4c8d2c84d9dce4bb6529dfdfcdb02e8a6754d4f4",
+        "resources/js/pages/admin/kwitansis/kwitansi-dets/edit.tsx": "c235d5d77142817c6a3097ca2faed4fe2d8e1c1c",
+        "database/migrations/2026_11_19_101932_create_kwitansis_table.php": "4d71b150c83ccaeb179b9d850d52234d2a419942",
+        "app/Models/Kwitansi.php": "dc6d55d0b1cdee3729ae162a096c20bba719f014",
+        "database/factories/KwitansiFactory.php": "51f6194f4a1ddf197cc8c014bb4f9d3396d9209d",
+        "app/Policies/KwitansiPolicy.php": "e91aa8ab137637fe2be8c37e67fe742fc6448cf0",
+        "app/Http/Requests/Admin/SaveKwitansiRequest.php": "aa1be05285775a48452ca2639e0db03891c9a7e8",
+        "app/Http/Controllers/Admin/KwitansiController.php": "2f884243e48fbfd67f5850c4b8e582b85afeb871",
+        "tests/Feature/Admin/Generated/KwitansiCrudTest.php": "4ba4917de63dc65902481a25b8878c5e419d3081",
+        "resources/js/components/admin/kwitansi-form.tsx": "7354ed661563b93baa8bc3a2625f447e884007ee",
+        "resources/js/pages/admin/kwitansis/index.tsx": "ea232dea53b4220dd0a86cf46c88250f63089550",
+        "resources/js/pages/admin/kwitansis/create.tsx": "8fb9a68573f0175d4c432a9159a9bc93b3dd9d49",
+        "resources/js/pages/admin/kwitansis/edit.tsx": "33dd4178cb1b899a7c5addccfef598c4c0250f5e"
+    },
+    "fingerprints": {
+        "app/Models/KwitansiKwitansiDet.php": "328a076be371e3794fb3f48d77b3253a2f381163",
+        "database/factories/KwitansiKwitansiDetFactory.php": "921d92d7477451f45080144d730d90aab8db5772",
+        "app/Http/Requests/Admin/SaveKwitansiKwitansiDetRequest.php": "a965ac424d935f7e8c2c6e40dfd09b58c22fa4e8",
+        "app/Http/Controllers/Admin/KwitansiKwitansiDetController.php": "48e2f3782d48846cf4e302c496321a63c1026abe",
+        "resources/js/components/admin/kwitansi-kwitansi-det-form.tsx": "eef1c2be88fc621852bc193b83975306a720140d",
+        "resources/js/components/admin/kwitansi-kwitansi-det-section.tsx": "d64403ac6b57a80662fbd70086a49524df3a86ce",
+        "resources/js/components/admin/kwitansi-kwitansi-det-rows.tsx": "3ea6feb801c27deae829a44cb9d0981f7142028e",
+        "resources/js/pages/admin/kwitansis/kwitansi-dets/create.tsx": "57508014052b9f15e48913081b46bb107d9f630a",
+        "resources/js/pages/admin/kwitansis/kwitansi-dets/edit.tsx": "df1e797dd69ada3ea3c0b734869a3e32577789ff",
+        "database/migrations/2026_11_19_101932_create_kwitansis_table.php": "9f58f1d7581e963c44aa219c40ea1c7173868e38",
+        "app/Models/Kwitansi.php": "195c4fc4fbc51483fdb0d2e1838eb4c112075c18",
+        "database/factories/KwitansiFactory.php": "a8e818622be9b5498372ffb65f5835da38366933",
+        "app/Policies/KwitansiPolicy.php": "b8eecea4a34828fc7cb416fd6a11d884194b01fe",
+        "app/Http/Requests/Admin/SaveKwitansiRequest.php": "ffb2f3e1c75cdb371ffad821d4d6d27d80f5f251",
+        "app/Http/Controllers/Admin/KwitansiController.php": "948d52e1708de5f8e3b190559b9003ed5ceaeb74",
+        "tests/Feature/Admin/Generated/KwitansiCrudTest.php": "2d4cf6c04b142b82d5f082243e8793b18849611e",
+        "resources/js/components/admin/kwitansi-form.tsx": "ef3fb9a9541b9e2b7b6bc2e1d05dc966aa3502e3",
+        "resources/js/pages/admin/kwitansis/index.tsx": "3d0de1d5154bb26da1f6ab83d9da644466ef154e",
+        "resources/js/pages/admin/kwitansis/create.tsx": "660fab7ca1ff95ee94201072daa6a422bfacd180",
+        "resources/js/pages/admin/kwitansis/edit.tsx": "806d0d7857ac5f551ae7949945d2838e4af0307d"
+    }
+}

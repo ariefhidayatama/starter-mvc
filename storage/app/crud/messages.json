@@ -1,0 +1,279 @@
+{
+    "name": "Messages",
+    "table": "messages",
+    "db_table": "msg",
+    "db_connection": "wmsreports",
+    "existing_table": true,
+    "timestamps": true,
+    "audit": {
+        "created_at": "created_date",
+        "updated_at": "updated_date",
+        "created_by": "created_by",
+        "updated_by": "updated_by",
+        "user_max": 30
+    },
+    "model": "Message",
+    "fields": [
+        {
+            "name": "whs_code",
+            "type": "string",
+            "required": true,
+            "options": [],
+            "max": 10,
+            "unsigned": false,
+            "references": null
+        },
+        {
+            "name": "owner_code",
+            "type": "string",
+            "required": true,
+            "options": [],
+            "max": 10,
+            "unsigned": false,
+            "references": null
+        },
+        {
+            "name": "msg_group",
+            "type": "string",
+            "required": true,
+            "options": [],
+            "max": 15,
+            "unsigned": false,
+            "references": null
+        },
+        {
+            "name": "msg_description",
+            "type": "text",
+            "required": true,
+            "options": [],
+            "max": null,
+            "unsigned": false,
+            "references": null
+        },
+        {
+            "name": "photo1",
+            "type": "string",
+            "required": false,
+            "options": [],
+            "max": 500,
+            "unsigned": false,
+            "references": null
+        },
+        {
+            "name": "photo2",
+            "type": "string",
+            "required": false,
+            "options": [],
+            "max": 500,
+            "unsigned": false,
+            "references": null
+        },
+        {
+            "name": "photo3",
+            "type": "string",
+            "required": false,
+            "options": [],
+            "max": 500,
+            "unsigned": false,
+            "references": null
+        },
+        {
+            "name": "photo4",
+            "type": "string",
+            "required": false,
+            "options": [],
+            "max": 500,
+            "unsigned": false,
+            "references": null
+        },
+        {
+            "name": "photo5",
+            "type": "string",
+            "required": false,
+            "options": [],
+            "max": 500,
+            "unsigned": false,
+            "references": null
+        },
+        {
+            "name": "document1",
+            "type": "string",
+            "required": false,
+            "options": [],
+            "max": 500,
+            "unsigned": false,
+            "references": null
+        },
+        {
+            "name": "document2",
+            "type": "string",
+            "required": false,
+            "options": [],
+            "max": 500,
+            "unsigned": false,
+            "references": null
+        },
+        {
+            "name": "document3",
+            "type": "string",
+            "required": false,
+            "options": [],
+            "max": 500,
+            "unsigned": false,
+            "references": null
+        }
+    ],
+    "detail": {
+        "name": "Message details",
+        "table": "message_details",
+        "db_table": "msg_det",
+        "db_connection": "wmsreports",
+        "existing_table": true,
+        "timestamps": true,
+        "audit": {
+            "created_at": "created_date",
+            "updated_at": "updated_date",
+            "created_by": "created_by",
+            "updated_by": "updated_by",
+            "user_max": 30
+        },
+        "model": "MessageDetail",
+        "fields": [
+            {
+                "name": "trans_code",
+                "type": "string",
+                "required": true,
+                "options": [],
+                "max": 10,
+                "unsigned": false,
+                "references": null
+            },
+            {
+                "name": "trans_no",
+                "type": "string",
+                "required": true,
+                "options": [],
+                "max": 30,
+                "unsigned": false,
+                "references": null
+            },
+            {
+                "name": "ref_no",
+                "type": "string",
+                "required": true,
+                "options": [],
+                "max": 30,
+                "unsigned": false,
+                "references": null
+            },
+            {
+                "name": "po_no",
+                "type": "string",
+                "required": true,
+                "options": [],
+                "max": 30,
+                "unsigned": false,
+                "references": null
+            },
+            {
+                "name": "prod_code",
+                "type": "string",
+                "required": false,
+                "options": [],
+                "max": 30,
+                "unsigned": false,
+                "references": null
+            },
+            {
+                "name": "loc_code",
+                "type": "string",
+                "required": false,
+                "options": [],
+                "max": 30,
+                "unsigned": false,
+                "references": null
+            },
+            {
+                "name": "pallet_no",
+                "type": "string",
+                "required": false,
+                "options": [],
+                "max": 30,
+                "unsigned": false,
+                "references": null
+            },
+            {
+                "name": "lot_no",
+                "type": "string",
+                "required": false,
+                "options": [],
+                "max": 30,
+                "unsigned": false,
+                "references": null
+            },
+            {
+                "name": "inv_status",
+                "type": "string",
+                "required": false,
+                "options": [],
+                "max": 30,
+                "unsigned": false,
+                "references": null
+            },
+            {
+                "name": "qty",
+                "type": "integer",
+                "required": false,
+                "options": [],
+                "max": 2147483647,
+                "unsigned": false,
+                "references": null
+            }
+        ],
+        "detail": null,
+        "foreign_key": "msg_id"
+    },
+    "foreign_key": null,
+    "url": "/admin/messages",
+    "migration": null,
+    "generated_at": "2026-11-13T07:01:15+00:00",
+    "files": {
+        "app/Models/MessageDetail.php": "6787b63d9f7327f506ed20c429b08529aaa6aec6",
+        "database/factories/MessageDetailFactory.php": "5806ed1504071076f0e52f2314ff7181f135a14a",
+        "app/Http/Requests/Admin/SaveMessageDetailRequest.php": "2c018e5381d99a61955403cd8e40975f5cbc5c83",
+        "app/Http/Controllers/Admin/MessageDetailController.php": "6b1b8f40c2dd06c609c150e4461acab21cba2e40",
+        "resources/js/components/admin/message-detail-form.tsx": "87466bbfdd9779f9135fb5b4640006cf76cf186e",
+        "resources/js/components/admin/message-detail-section.tsx": "99bfd66cc3043aa0a38f99e2457678bdacab7e6a",
+        "resources/js/pages/admin/messages/details/create.tsx": "230a858cc4210b3b591aac50360d9ccf52c43a0e",
+        "resources/js/pages/admin/messages/details/edit.tsx": "649b3b1ae25672957ce5bec3f323a70dc0fe45b1",
+        "app/Models/Message.php": "0e1fbdf99bf4ea25d920e8f0df28d1949df0e48e",
+        "database/factories/MessageFactory.php": "e5693c0ccec5a309357bfcd591642ef16da1d719",
+        "app/Policies/MessagePolicy.php": "15e30e41121c9cef874567a78ba6deffd6c23b47",
+        "app/Http/Requests/Admin/SaveMessageRequest.php": "46a83949d6e3308e8f28bb10711f2b101dc2cded",
+        "app/Http/Controllers/Admin/MessageController.php": "7cda294adcf5892fc94eca4a07f331daa7cd6fae",
+        "tests/Feature/Admin/Generated/MessageCrudTest.php": "14d9a6bf4bb36c103345486249505b72199aac34",
+        "resources/js/components/admin/message-form.tsx": "0d3a53e110111e79002bd2858948494acfdabcd5",
+        "resources/js/pages/admin/messages/index.tsx": "2be7d771580e3a13a7bdfd577a4dfbceab5a1141",
+        "resources/js/pages/admin/messages/create.tsx": "df389d1d563070707886c3abfb28ec74f3c250e1",
+        "resources/js/pages/admin/messages/edit.tsx": "06d46477f364238baf1416082864c9fb0b8d2cbe",
+        "app/Http/Controllers/Api/V1/MessageController.php": "6ec2792cadfb147f54450ad8d32857af808bf721",
+        "app/Http/Resources/V1/MessageResource.php": "096afa2879629e80978c27b27d0a528c0143569d",
+        "app/Http/Resources/V1/MessageDetailResource.php": "57814b11b5a56c7b65471dda9207e81b9a89e3fd",
+        "tests/Feature/Api/Generated/MessageApiTest.php": "bf2fad1d9fc521e51eff81c7d6a58271f35c15b3"
+    },
+    "web": true,
+    "api": true,
+    "api_url": "/api/v1/messages",
+    "api_files": [
+        "app/Http/Controllers/Api/V1/MessageController.php",
+        "app/Http/Resources/V1/MessageResource.php",
+        "app/Http/Resources/V1/MessageDetailResource.php",
+        "tests/Feature/Api/Generated/MessageApiTest.php"
+    ],
+    "fingerprints": {
+        "app/Http/Controllers/Api/V1/MessageController.php": "891580f57696c397b988c571dbea74c8ce8acd28",
+        "app/Http/Resources/V1/MessageResource.php": "53ba3e120aff1727e07b94333129c5d636d70023",
+        "app/Http/Resources/V1/MessageDetailResource.php": "cf7a12d9d282dbf0ad5e06d0d44ed21c8c085e0a",
+        "tests/Feature/Api/Generated/MessageApiTest.php": "742fe924fe58b4f5349b4536186c068d5b13776c"
+    }
+}

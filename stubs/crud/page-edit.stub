@@ -1,0 +1,38 @@
+import { Head } from '@inertiajs/react';
+import { Pencil } from 'lucide-react';
+import {{ model }}Controller from '@/actions/App/Http/Controllers/Admin/{{ model }}Controller';
+{{ detailImports }}import { {{ model }}Form } from '@/components/admin/{{ formFile }}';
+import type { {{ model }} } from '@/components/admin/{{ formFile }}';
+import { PageHeader } from '@/components/page-header';
+import { routeKey } from '@/lib/route-key';
+{{ detailTypeImports }}
+export default function {{ model }}Edit({
+    item,{{ detailParams }}
+}: {
+    item: {{ model }};{{ detailPropTypes }}
+}) {
+    return (
+        <>
+            <Head title={`Edit ${{{ titleExpr }}}`} />
+
+            <div className="space-y-6 p-4 md:p-6">
+                <PageHeader
+                    icon={Pencil}
+                    title={`Edit ${{{ titleExpr }}}`}
+                    description="Change the details and save."
+                />
+                <{{ model }}Form
+                    action={{{ model }}Controller.update.form(routeKey(item))}
+                    item={item}
+                />{{ detailRender }}
+            </div>
+        </>
+    );
+}
+
+{{ model }}Edit.layout = {
+    breadcrumbs: [
+        { title: '{{ plural }}', href: {{ model }}Controller.index() },
+        { title: 'Edit', href: '#' },
+    ],
+};

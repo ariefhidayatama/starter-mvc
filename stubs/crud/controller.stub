@@ -1,0 +1,114 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Save{{ model }}Request;
+use App\Models\{{ model }};
+use App\Support\QuerySort;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
+use Inertia\Inertia;
+use Inertia\Response;
+{{ controllerImports }}
+/**
+ * Admin → {{ plural }}. Dibuat oleh CRUD generator.
+ *
+ * Sengaja sederhana: query langsung di controller. Bila logikanya
+ * bertambah, pindahkan ke Action/Service seperti modul Products.
+ */
+class {{ model }}Controller extends Controller
+{
+    /** Kunci ?sort= → kolom (whitelist, lihat App\Support\QuerySort). */
+    private const SORTS = [
+{{ sorts }}
+    ];
+
+    public function index(Request $request): Response
+    {
+        Gate::authorize('viewAny', {{ model }}::class);
+
+        $filters = $request->validate([
+            'search' => ['nullable', 'string', 'max:100'],
+            'sort' => ['nullable', Rule::in(QuerySort::options(array_keys(self::SORTS)))],
+            'per_page' => ['nullable', 'integer', Rule::in([10, 25, 50, 100])],
+        ]);
+
+        $search = is_string($filters['search'] ?? null) ? trim($filters['search']) : '';
+        $sort = is_string($filters['sort'] ?? null) ? $filters['sort'] : '{{ defaultSort }}';
+        $perPage = is_numeric($filters['per_page'] ?? null) ? (int) $filters['per_page'] : 10;
+
+{{ query }}
+
+        return Inertia::render('admin/{{ slug }}/index', [
+            'items' => QuerySort::apply($query, $sort, self::SORTS, '{{ defaultSort }}')
+                ->paginate($perPage)
+                ->withQueryString(),
+            'filters' => ['search' => $search, 'sort' => $sort, 'per_page' => $perPage],
+            'abilities' => $this->abilities(),
+        ]);
+    }
+
+    public function create(): Response
+    {
+        Gate::authorize('create', {{ model }}::class);
+
+        return Inertia::render('admin/{{ slug }}/create'{{ createProps }});
+    }
+
+{{ storeDoc }}    public function store(Save{{ model }}Request $request): RedirectResponse
+    {
+{{ storeBody }}
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => '{{ singularTitle }} created.']);
+
+        return to_route('admin.{{ slug }}.index');
+    }
+
+    public function edit({{ model }} ${{ variable }}): Response
+    {
+        Gate::authorize('update', ${{ variable }});
+
+        return Inertia::render('admin/{{ slug }}/edit', [
+            'item' => ${{ variable }},
+            'abilities' => $this->abilities(),
+{{ editProps }}        ]);
+    }
+
+    public function update(Save{{ model }}Request $request, {{ model }} ${{ variable }}): RedirectResponse
+    {
+        ${{ variable }}->update($request->validated());
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => '{{ singularTitle }} updated.']);
+
+        return to_route('admin.{{ slug }}.index');
+    }
+
+    public function destroy({{ model }} ${{ variable }}): RedirectResponse
+    {
+        Gate::authorize('delete', ${{ variable }});
+
+{{ destroyBody }}
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => '{{ singularTitle }} deleted.']);
+
+        return to_route('admin.{{ slug }}.index');
+    }
+
+    /**
+     * Tombol yang boleh tampil: permission aplikasi DAN izin akun database.
+     *
+     * @return array{create: bool, update: bool, delete: bool}
+     */
+    private function abilities(): array
+    {
+        return [
+            'create' => Gate::allows('create', {{ model }}::class),
+            'update' => Gate::allows('update', new {{ model }}),
+            'delete' => Gate::allows('delete', new {{ model }}),
+        ];
+    }
+}

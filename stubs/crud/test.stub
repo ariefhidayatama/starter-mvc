@@ -1,0 +1,57 @@
+<?php
+
+use App\Enums\RoleName;
+use App\Models\{{ model }};
+{{ testImports }}use App\Models\User;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Schema;
+use Inertia\Testing\AssertableInertia as Assert;
+
+/*
+ * Dibuat oleh CRUD generator ({{ plural }}).
+ * Tambahkan test untuk aturan bisnis Anda sendiri di sini.
+ */
+
+beforeEach(function () {
+{{ testSetup }}    $this->admin = User::factory()->create()->assignRole(RoleName::Admin);
+    $this->fields = [{{ fieldNames }}];
+});
+
+it('{{ table }}: user tanpa permission tidak bisa membuka halaman', function () {
+    $customer = User::factory()->create()->assignRole(RoleName::Customer);
+
+    $this->actingAs($customer)->get('{{ url }}')->assertForbidden();
+    $this->actingAs($customer)->post('{{ url }}', [])->assertForbidden();
+});
+
+it('{{ table }}: menampilkan daftar', function () {
+    {{ model }}::factory()->count(3)->create();
+
+    $this->actingAs($this->admin)
+        ->get('{{ url }}')
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('admin/{{ slug }}/index')
+            ->has('items.data', 3));
+}){{ crudTestSkip }};
+
+it('{{ table }}: tambah, ubah & hapus', function () {
+    $payload = Arr::only({{ model }}::factory()->make()->toArray(), $this->fields);
+
+    $this->actingAs($this->admin)->post('{{ url }}', $payload)->assertRedirect('{{ url }}');
+
+    $item = {{ model }}::query()->latest('id')->firstOrFail();
+
+    $this->actingAs($this->admin)
+        ->get("{{ url }}/{$item->getRouteKey()}/edit")
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('admin/{{ slug }}/edit')
+            ->where('item.id', $item->id));
+
+    $changes = Arr::only({{ model }}::factory()->make()->toArray(), $this->fields);
+
+    $this->actingAs($this->admin)->put("{{ url }}/{$item->getRouteKey()}", $changes)->assertRedirect('{{ url }}');
+    $this->actingAs($this->admin)->delete("{{ url }}/{$item->getRouteKey()}")->assertRedirect('{{ url }}');
+
+    expect({{ model }}::find($item->id))->toBeNull();
+}){{ crudTestSkip }};
+{{ detailTest }}{{ requiredTest }}

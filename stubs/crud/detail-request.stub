@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Http\Requests\Admin;
+
+use App\Models\{{ parentModel }};
+use Illuminate\Foundation\Http\FormRequest;
+
+/**
+ * Tambah & ubah baris {{ detailSingular }} milik {{ parentSingular }}. Boleh bila user
+ * boleh mengubah induknya. Dibuat oleh CRUD generator.
+ */
+class Save{{ model }}Request extends FormRequest
+{
+    public function authorize(): bool
+    {
+        ${{ parentVariable }} = $this->route('{{ parentParameter }}');
+
+        return ${{ parentVariable }} instanceof {{ parentModel }}
+            && (bool) $this->user()?->can('update', ${{ parentVariable }});
+    }
+
+    /**
+     * @return array<string, list<mixed>>
+     */
+    public function rules(): array
+    {
+        return self::fieldRules();
+    }
+
+    /**
+     * Aturan per kolom. Dipakai juga oleh Save{{ parentModel }}Request untuk
+     * baris {{ detailSingular }} di form "Add {{ parentSingular }}" ({{ detailInputKey }}.*.kolom),
+     * jadi aturannya cukup ditulis di satu tempat.
+     *
+     * @return array<string, list<mixed>>
+     */
+    public static function fieldRules(): array
+    {
+        return [
+{{ rules }}
+        ];
+    }
+}

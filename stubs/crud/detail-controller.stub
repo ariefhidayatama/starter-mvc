@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Save{{ model }}Request;
+use App\Models\{{ model }};
+use App\Models\{{ parentModel }};
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
+use Inertia\Response;
+
+/**
+ * Baris {{ detailSingular }} milik satu {{ parentSingular }} (master–detail). Dibuat oleh CRUD generator.
+ *
+ * Route bertingkat & "scoped": /admin/{{ parentSlug }}/{{{ parentParameter }}}/{{ detailSegment }}/{{{ detailParam }}}
+ * Laravel memastikan baris itu memang milik induk di URL (404 bila bukan).
+ * Hak akses mengikuti induk: boleh mengubah {{ parentSingular }} = boleh mengelola {{ detailTitleLower }}.
+ */
+class {{ model }}Controller extends Controller
+{
+    public function create({{ parentModel }} ${{ parentVariable }}): Response
+    {
+        Gate::authorize('update', ${{ parentVariable }});
+
+        return Inertia::render('admin/{{ parentSlug }}/{{ detailSegment }}/create', [
+            'parent' => ${{ parentVariable }}->only(['id', 'ulid', {{ parentTitleColumn }}]),
+        ]);
+    }
+
+    public function store(Save{{ model }}Request $request, {{ parentModel }} ${{ parentVariable }}): RedirectResponse
+    {
+        // Kolom penghubung ({{ foreignKey }}) diisi otomatis lewat relasi.
+        ${{ parentVariable }}->{{ relation }}()->create($request->validated());
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => '{{ detailSingularTitle }} added.']);
+
+        return to_route('admin.{{ parentSlug }}.edit', ${{ parentVariable }});
+    }
+
+    public function edit({{ parentModel }} ${{ parentVariable }}, {{ model }} ${{ detailVariable }}): Response
+    {
+        Gate::authorize('update', ${{ parentVariable }});
+
+        return Inertia::render('admin/{{ parentSlug }}/{{ detailSegment }}/edit', [
+            'parent' => ${{ parentVariable }}->only(['id', 'ulid', {{ parentTitleColumn }}]),
+            'item' => ${{ detailVariable }},
+        ]);
+    }
+
+    public function update(Save{{ model }}Request $request, {{ parentModel }} ${{ parentVariable }}, {{ model }} ${{ detailVariable }}): RedirectResponse
+    {
+        ${{ detailVariable }}->update($request->validated());
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => '{{ detailSingularTitle }} updated.']);
+
+        return to_route('admin.{{ parentSlug }}.edit', ${{ parentVariable }});
+    }
+
+    public function destroy({{ parentModel }} ${{ parentVariable }}, {{ model }} ${{ detailVariable }}): RedirectResponse
+    {
+        Gate::authorize('update', ${{ parentVariable }});
+
+        ${{ detailVariable }}->delete();
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => '{{ detailSingularTitle }} deleted.']);
+
+        return to_route('admin.{{ parentSlug }}.edit', ${{ parentVariable }});
+    }
+}

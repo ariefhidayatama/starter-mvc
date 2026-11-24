@@ -1,0 +1,29 @@
+import { Head } from '@inertiajs/react';
+import { Plus } from 'lucide-react';
+import {{ model }}Controller from '@/actions/App/Http/Controllers/Admin/{{ model }}Controller';
+import { {{ model }}Form } from '@/components/admin/{{ formFile }}';
+import { PageHeader } from '@/components/page-header';
+
+export default function {{ model }}Create({{ createPageProps }}) {
+    return (
+        <>
+            <Head title="Add {{ singular }}" />
+
+            <div className="space-y-6 p-4 md:p-6">
+                <PageHeader
+                    icon={Plus}
+                    title="Add {{ singular }}"
+                    description="{{ createDescription }}"
+                />
+                <{{ model }}Form action={{{ model }}Controller.store.form()}{{ createFormProps }} />
+            </div>
+        </>
+    );
+}
+
+{{ model }}Create.layout = {
+    breadcrumbs: [
+        { title: '{{ plural }}', href: {{ model }}Controller.index() },
+        { title: 'Add', href: {{ model }}Controller.create() },
+    ],
+};

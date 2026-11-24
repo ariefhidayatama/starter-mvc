@@ -1,0 +1,64 @@
+<?php
+
+use App\Enums\PermissionName;
+use App\Enums\RoleName;
+use App\Models\{{ model }};
+{{ testImports }}use App\Models\Role;
+use App\Models\User;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Schema;
+use Laravel\Sanctum\Sanctum;
+
+/*
+ * Dibuat oleh CRUD generator: REST API {{ apiUrl }} ({{ plural }}).
+ * Tambahkan test untuk aturan bisnis Anda sendiri di sini.
+ */
+
+beforeEach(function () {
+{{ testSetup }}    $this->admin = User::factory()->create()->assignRole(RoleName::Admin);
+    $this->fields = [{{ fieldNames }}];
+});
+
+it('{{ table }} API: wajib token', function () {
+    $this->getJson('{{ apiUrl }}')->assertUnauthorized();
+});
+
+it('{{ table }} API: role tanpa permission {{ table }}.* ditolak', function () {
+    Sanctum::actingAs(User::factory()->create()->assignRole(RoleName::Customer));
+
+    $this->getJson('{{ apiUrl }}')->assertForbidden();
+    $this->postJson('{{ apiUrl }}', [])->assertForbidden();
+});
+
+it('{{ table }} API: izin mengikuti matriks Permissions', function () {
+    Role::findByName(RoleName::Customer->value, 'web')->givePermissionTo(PermissionName::{{ enum }}View);
+    Sanctum::actingAs(User::factory()->create()->assignRole(RoleName::Customer));
+    {{ model }}::factory()->count(2)->create();
+
+    // Punya {{ table }}.view → boleh membaca, tetapi belum boleh menambah.
+    $this->getJson('{{ apiUrl }}')->assertOk()->assertJsonCount(2, 'data');
+    $this->postJson('{{ apiUrl }}', [])->assertForbidden();
+}){{ crudTestSkip }};
+
+it('{{ table }} API: daftar, detail, tambah, ubah & hapus', function () {
+    Sanctum::actingAs($this->admin);
+
+    $this->postJson('{{ apiUrl }}', Arr::only({{ model }}::factory()->make()->toArray(), $this->fields))
+        ->assertCreated()
+        ->assertJsonPath('success', true);
+
+    $item = {{ model }}::query()->latest('id')->firstOrFail();
+    $key = $item->getRouteKey();
+
+    $this->getJson('{{ apiUrl }}')
+        ->assertOk()
+        ->assertJsonPath('meta.total', 1)
+        ->assertJsonStructure(['success', 'message', 'data', 'meta', 'links']);
+    $this->getJson("{{ apiUrl }}/{$key}")->assertOk()->assertJsonPath('data.id', $item->id);
+
+    $this->putJson("{{ apiUrl }}/{$key}", Arr::only({{ model }}::factory()->make()->toArray(), $this->fields))->assertOk();
+    $this->deleteJson("{{ apiUrl }}/{$key}")->assertNoContent();
+
+    expect({{ model }}::find($item->id))->toBeNull();
+}){{ crudTestSkip }};
+{{ apiDetailTest }}{{ apiRequiredTest }}

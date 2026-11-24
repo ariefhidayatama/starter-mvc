@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Concerns\HasOptionalPublicUlid;
+{{ modelImports }}use Database\Factories\{{ model }}Factory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+
+/**
+ * Dibuat oleh CRUD generator ({{ plural }}). Silakan diubah sesuai kebutuhan.
+ *
+ * @property int $id
+ * @property string|null $ulid pengenal acak untuk URL admin (bila tabel punya kolom ulid)
+{{ properties }}{{ timestampProperties }}
+ */
+#[Fillable([{{ fillable }}])]
+{{ classAttributes }}class {{ model }} extends Model{{ implements }}
+{
+    /** @use HasFactory<{{ model }}Factory> */
+    use HasFactory;
+
+    /** URL admin memakai kolom "ulid" bila tabelnya punya, selain itu id. */
+    use HasOptionalPublicUlid;
+
+{{ modelExtras }}    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return {{ casts }};
+    }
+{{ auditMethod }}{{ relations }}}

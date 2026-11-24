@@ -1,0 +1,94 @@
+<?php
+
+namespace App\Http\Controllers\Api\V1;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Save{{ model }}Request;
+use App\Http\Resources\V1\{{ model }}Resource;
+use App\Models\{{ model }};
+use App\Support\ApiResponse;
+use App\Support\QuerySort;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
+{{ apiControllerImports }}
+/**
+ * REST API {{ apiUrl }}. Dibuat oleh CRUD generator.
+ *
+ * Siapa boleh apa diatur di Admin → Permissions (permission yang SAMA
+ * dengan halaman web):
+ *
+ *   GET    {{ apiUrl }}            {{ table }}.view
+ *   GET    {{ apiUrl }}/{id}       {{ table }}.view
+ *   POST   {{ apiUrl }}            {{ table }}.create
+ *   PUT    {{ apiUrl }}/{id}       {{ table }}.update
+ *   DELETE {{ apiUrl }}/{id}       {{ table }}.delete
+ *
+ * Semua endpoint wajib token + role ber-"api.access" (routes/api/v1.php).
+ * Validasi & izin tulis memakai Save{{ model }}Request yang sama dengan web.
+ */
+class {{ model }}Controller extends Controller
+{
+    /** Kunci ?sort= → kolom (whitelist, lihat App\Support\QuerySort). */
+    private const SORTS = [
+{{ sorts }}
+    ];
+
+    /**
+     * Daftar ber-halaman: ?search=, ?sort= (awali "-" untuk menurun), ?per_page= (maks. 100).
+     */
+    public function index(Request $request): JsonResponse
+    {
+        Gate::authorize('viewAny', {{ model }}::class);
+
+        $filters = $request->validate([
+            'search' => ['nullable', 'string', 'max:100'],
+            'sort' => ['nullable', Rule::in(QuerySort::options(array_keys(self::SORTS)))],
+            'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
+        ]);
+
+        $search = is_string($filters['search'] ?? null) ? trim($filters['search']) : '';
+        $sort = is_string($filters['sort'] ?? null) ? $filters['sort'] : '{{ defaultSort }}';
+        $perPage = is_numeric($filters['per_page'] ?? null) ? (int) $filters['per_page'] : 15;
+
+{{ query }}
+
+        return ApiResponse::paginated(
+            QuerySort::apply($query, $sort, self::SORTS, '{{ defaultSort }}')->paginate($perPage)->withQueryString(),
+            {{ model }}Resource::class,
+        );
+    }
+
+    public function show({{ model }} ${{ variable }}): JsonResponse
+    {
+        Gate::authorize('view', ${{ variable }});
+
+        return ApiResponse::success({{ model }}Resource::make(${{ variable }}{{ apiLoad }}));
+    }
+
+{{ storeDoc }}    public function store(Save{{ model }}Request $request): JsonResponse
+    {
+{{ apiStoreBody }}
+
+        return ApiResponse::created({{ model }}Resource::make(${{ variable }}{{ apiLoad }}), '{{ singularTitle }} created.');
+    }
+
+    public function update(Save{{ model }}Request $request, {{ model }} ${{ variable }}): JsonResponse
+    {
+        ${{ variable }}->update($request->validated());
+
+        return ApiResponse::success({{ model }}Resource::make(${{ variable }}{{ apiLoad }}), '{{ singularTitle }} updated.');
+    }
+
+    public function destroy({{ model }} ${{ variable }}): Response
+    {
+        Gate::authorize('delete', ${{ variable }});
+
+{{ destroyBody }}
+
+        return ApiResponse::noContent();
+    }
+}
